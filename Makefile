@@ -8,11 +8,11 @@ PROJECT_NAME = $(shell git remote get-url origin | xargs basename -s .git)
 ###                           Install                                       ###
 ###############################################################################
 install: go.sum
-		@echo "--> Installing icad"
-		@go install ./cmd/icad
+		@echo "--> Installing nftd"
+		@go install ./cmd/nftd
 
 install-debug: go.sum
-	go build -gcflags="all=-N -l" ./cmd/icad
+	go build -gcflags="all=-N -l" ./cmd/nftd
 
 go.sum: go.mod
 	@echo "--> Ensure dependencies have not been modified"
