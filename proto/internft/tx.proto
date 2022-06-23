@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package internft;
+
+option go_package = "github.com/bianjieai/ics721-demo/x/inter-nft";
+
+import "gogoproto/gogo.proto";
+
+// Msg defines the intertx Msg service.
+service Msg {
+  // Register defines a rpc handler for MsgIssueClass
+  rpc IssueClass(MsgIssueClass) returns (MsgIssueClassResponse);
+  // MintNFT defines a rpc handler for MsgMintNFT
+  rpc MintNFT(MsgMintNFT) returns (MintNFTResponse);
+}
+
+// MsgIssueClass defines the payload for Msg/IssueClass
+message MsgIssueClass {
+  option (gogoproto.equal) = false;
+  option (gogoproto.goproto_getters) = false;
+
+  // id defines the unique identifier of the NFT classification, similar to the
+  // contract address of ERC721
+  string id = 1;
+
+  // name defines the human-readable name of the NFT classification. Optional
+  string name = 2;
+
+  // symbol is an abbreviated name for nft classification. Optional
+  string symbol = 3;
+
+  // description is a brief description of nft classification. Optional
+  string description = 4;
+
+  // uri for the class metadata stored off chain. It can define schema for Class
+  // and NFT `Data` attributes. Optional
+  string uri = 5;
+
+  // uri_hash is a hash of the document pointed by uri. Optional
+  string uri_hash = 6;
+
+  string issuer = 7;
+}
+
+// MsgIssueClassResponse defines the response for Msg/MsgIssueClass
+message MsgIssueClassResponse {}
+
+// MsgMintNFT defines the payload for Msg/MintNFT
+message MsgMintNFT {
+  option (gogoproto.equal) = false;
+  option (gogoproto.goproto_getters) = false;
+
+  // class_id associated with the NFT, similar to the contract address of ERC721
+  string class_id = 1;
+
+  // id is a unique identifier of the NFT
+  string id = 2;
+
+  // uri for the NFT metadata stored off chain
+  string uri = 3;
+
+  // uri_hash is a hash of the document pointed by uri
+  string uri_hash = 4;
+
+  // minter is a minter of the NFT
+  string minter = 5;
+
+  // receiver is a receiver of the NFT, optional
+  string receiver = 6;
+}
+
+// MintNFTResponse defines the response for Msg/MintNFT
+message MintNFTResponse {}
