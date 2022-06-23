@@ -11,6 +11,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/cosmos/cosmos-sdk/version"
 	"github.com/cosmos/cosmos-sdk/x/nft/client/cli"
+	nfttransfercli "github.com/cosmos/ibc-go/v3/modules/apps/nft-transfer/client/cli"
 
 	internft "github.com/bianjieai/ics721-demo/x/inter-nft"
 )
@@ -30,6 +31,7 @@ func GetTxCmd() *cobra.Command {
 		NewCmdIssueClass(),
 		NewCmdMintNFT(),
 		cli.NewCmdSend(),
+		nfttransfercli.NewTransferTxCmd(),
 	)
 	return nftTxCmd
 }
@@ -38,7 +40,7 @@ func NewCmdIssueClass() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "issue [id] --from [sender]",
 		Args:  cobra.ExactArgs(1),
-		Short: "issue a nft class",
+		Short: "Issue a nft class",
 		Long: strings.TrimSpace(fmt.Sprintf(`
 			$ %s tx %s issue <class-id> --name <name> --symbol <symbol> --description <description> --uri <uri> --uri-hash <uri-hash> --from <sender> --chain-id <chain-id>`,
 			version.AppName,
@@ -98,7 +100,7 @@ func NewCmdMintNFT() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "mint [class-id] [nft-id] --from [sender]",
 		Args:  cobra.ExactArgs(1),
-		Short: "mint a nft",
+		Short: "Mint a nft",
 		Long: strings.TrimSpace(fmt.Sprintf(`
 			$ %s tx %s mint [class-id] [id] --uri <uri> --uri-hash <uri-hash> --from <sender> --chain-id <chain-id>`,
 			version.AppName,
