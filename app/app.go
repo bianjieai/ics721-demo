@@ -365,7 +365,7 @@ func New(
 		app.IBCKeeper.ChannelKeeper, app.IBCKeeper.ChannelKeeper, &app.IBCKeeper.PortKeeper,
 		app.AccountKeeper, app.InterNFTKeeper, scopedNFTTransferKeeper,
 	)
-	ibcnfttransferModule := nfttransfer.NewAppModule(app.IBCNFTTransferKeeper)
+	nfttransferModule := nfttransfer.NewAppModule(app.IBCNFTTransferKeeper)
 	nfttransferIBCModule := nfttransfer.NewIBCModule(app.IBCNFTTransferKeeper)
 
 	// Create static IBC router, add transfer route, then set and seal it
@@ -427,7 +427,7 @@ func New(
 		ibc.NewAppModule(app.IBCKeeper),
 		params.NewAppModule(app.ParamsKeeper),
 		transferModule,
-		ibcnfttransferModule,
+		nfttransferModule,
 		interTxModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)

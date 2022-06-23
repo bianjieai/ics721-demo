@@ -5,7 +5,7 @@
     "connection-id": "",
     "channel-id": "",
     "port-id": "nft-transfer",
-    "order": "ordered",
+    "order": "unordered",
     "version": "ics721-1"
   },
   "dst": {
@@ -14,7 +14,7 @@
     "connection-id": "",
     "channel-id": "",
     "port-id": "nft-transfer",
-    "order": "ordered",
+    "order": "unordered",
     "version": "ics721-1"
   },
   "strategy": {
