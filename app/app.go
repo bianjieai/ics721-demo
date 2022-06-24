@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/cast"
 
 	abci "github.com/tendermint/tendermint/abci/types"
+	tmjson "github.com/tendermint/tendermint/libs/json"
 	"github.com/tendermint/tendermint/libs/log"
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
@@ -89,15 +90,13 @@ import (
 	porttypes "github.com/cosmos/ibc-go/v3/modules/core/05-port/types"
 	ibchost "github.com/cosmos/ibc-go/v3/modules/core/24-host"
 	ibckeeper "github.com/cosmos/ibc-go/v3/modules/core/keeper"
-	tmjson "github.com/tendermint/tendermint/libs/json"
 
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
+	appparams "github.com/bianjieai/ics721-demo/app/params"
 	internft "github.com/bianjieai/ics721-demo/x/inter-nft"
 	internftkeeper "github.com/bianjieai/ics721-demo/x/inter-nft/keeper"
 	internftmodule "github.com/bianjieai/ics721-demo/x/inter-nft/module"
-
-	appparams "github.com/bianjieai/ics721-demo/app/params"
 )
 
 const Name = "nft"
@@ -210,7 +209,7 @@ type App struct {
 	ScopedTransferKeeper      capabilitykeeper.ScopedKeeper
 	ScopedICAControllerKeeper capabilitykeeper.ScopedKeeper
 	ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
-	ScopedInterTxKeeper       capabilitykeeper.ScopedKeeper
+	ScopedNFTTransferKeeper   capabilitykeeper.ScopedKeeper
 
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
@@ -332,7 +331,12 @@ func New(
 
 	// Create IBC Keeper
 	app.IBCKeeper = ibckeeper.NewKeeper(
-		appCodec, keys[ibchost.StoreKey], app.GetSubspace(ibchost.ModuleName), app.StakingKeeper, app.UpgradeKeeper, scopedIBCKeeper,
+		appCodec,
+		keys[ibchost.StoreKey],
+		app.GetSubspace(ibchost.ModuleName),
+		app.StakingKeeper,
+		app.UpgradeKeeper,
+		scopedIBCKeeper,
 	)
 
 	// register the proposal types
@@ -361,9 +365,14 @@ func New(
 	interTxModule := internftmodule.NewAppModule(appCodec, app.InterNFTKeeper)
 
 	app.IBCNFTTransferKeeper = ibcnfttransferkeeper.NewKeeper(
-		appCodec, keys[ibcnfttransfertypes.StoreKey],
-		app.IBCKeeper.ChannelKeeper, app.IBCKeeper.ChannelKeeper, &app.IBCKeeper.PortKeeper,
-		app.AccountKeeper, app.InterNFTKeeper, scopedNFTTransferKeeper,
+		appCodec,
+		keys[ibcnfttransfertypes.StoreKey],
+		app.IBCKeeper.ChannelKeeper,
+		app.IBCKeeper.ChannelKeeper,
+		&app.IBCKeeper.PortKeeper,
+		app.AccountKeeper,
+		app.InterNFTKeeper,
+		scopedNFTTransferKeeper,
 	)
 	nfttransferModule := nfttransfer.NewAppModule(app.IBCNFTTransferKeeper)
 	nfttransferIBCModule := nfttransfer.NewIBCModule(app.IBCNFTTransferKeeper)
