@@ -27,7 +27,7 @@ $BINARY keys restore test-1 test-1 "$MNEMONIC_1" --home $CHAIN_DIR/$RELAYER_DIR
 $BINARY keys restore test-2 test-2 "$MNEMONIC_2" --home $CHAIN_DIR/$RELAYER_DIR
 
 echo "Linking both chains and starting to listen relayer"
-$BINARY transact link-then-start test1-nft-test2 --home $CHAIN_DIR/$RELAYER_DIR
+$BINARY transact link-then-start test1-nft-test2  --src-port nft-transfer --dst-port nft-transfer --order unordered --version ics721-1 --home $CHAIN_DIR/$RELAYER_DIR
 # $BINARY tx connect test1-nft-test2 --src-port nft-transfer --dst-port nft-transfer --order unordered --version ics721-1 --max-retries 10 -d --override -t 3s  --home $CHAIN_DIR/$RELAYER_DIR
 
 # echo "Starting to listen relayer..."
