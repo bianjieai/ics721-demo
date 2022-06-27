@@ -99,7 +99,7 @@ func NewCmdIssueClass() *cobra.Command {
 func NewCmdMintNFT() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "mint [class-id] [nft-id] --from [sender]",
-		Args:  cobra.ExactArgs(1),
+		Args:  cobra.ExactArgs(2),
 		Short: "Mint a nft",
 		Long: strings.TrimSpace(fmt.Sprintf(`
 			$ %s tx %s mint [class-id] [id] --uri <uri> --uri-hash <uri-hash> --from <sender> --chain-id <chain-id>`,
@@ -128,7 +128,8 @@ func NewCmdMintNFT() *cobra.Command {
 			}
 
 			msg := internft.MsgMintNFT{
-				Id:       args[0],
+				ClassId:  args[0],
+				Id:       args[1],
 				Uri:      uri,
 				UriHash:  uriHash,
 				Minter:   clientCtx.GetFromAddress().String(),
