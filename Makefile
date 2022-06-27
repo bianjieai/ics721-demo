@@ -80,7 +80,7 @@ init-golang-rly: kill-dev install
 	./network/init.sh
 	./network/start.sh
 	@echo "Initializing relayer..."
-	./network/relayer/interchain-acc-config/rly.sh
+	./network/relayer/interchain-nft-config/rly.sh
 
 start: 
 	@echo "Starting up test network"
