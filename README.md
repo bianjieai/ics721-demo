@@ -85,6 +85,18 @@ nftd query nft-transfer class-hash nft-transfer/channel-0/cat --node tcp://127.0
 nftd query nft nft ibc/943B966B2B8A53C50A198EDAB7C9A41FCEAF24400A94167846679769D8BF8311 xiaopi --node tcp://127.0.0.1:26657
 ```
 
+When the nft is transferred out, the nft on the original chain will be locked to the [escrow account](https://github.com/bianjieai/ibc-go/blob/develop/modules/apps/nft-transfer/types/keys.go#L45). You can use the following command to determine whether the transferred nft is escrow
+
+```bash
+nftd query nft owner cat xiaopi --node tcp://127.0.0.1:16657
+```
+
+### Transfer a nft back from chain `test-2` to chain `test-1`
+
+```bash
+nftd tx nft transfer nft-transfer channel-0 cosmos1m9l358xunhhwds0568za49mzhvuxx9uxre5tud ibc/943B966B2B8A53C50A198EDAB7C9A41FCEAF24400A94167846679769D8BF8311 xiaopi --from demowallet2 --chain-id test-2 --keyring-dir ./data/test-2 --fees=1stake --keyring-backend=test -b block --node tcp://127.0.0.1:26657 --packet-timeout-height 2-10000
+```
+
 #### Testing timeout scenario
 
 1. Stop the relayer process and send an transfer nft transaction using one of the examples provided above.
