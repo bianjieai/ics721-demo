@@ -10,7 +10,7 @@ This module **SHOULD NOT** be used in production systems and developers building
 The following repository contains a basic example of an Interchain NFT module and serves as a developer guide for teams that wish to use Interchain NFT functionality.
 
 The Interchain NFT module is now maintained within the `ibc-go` repository 
-[here](https://github.com/bianjieai/ibc-go/blob/ics-721-nft-transfer/modules/apps/nft-transfer). 
+[here](https://github.com/bianjieai/ibc-go/blob/develop/modules/apps/nft-transfer). 
 
 ### Developer Documentation
 
@@ -27,8 +27,9 @@ make install
 
 2. Compile and install an IBC relayer.
 ```
-git clone https://github.com/cosmos/relayer/justin/sdk-0.46.0.git
+git clone https://github.com/bianjieai/ibc-relayer-go.git
 cd relayer
+git checkout feature/bump-sdk-to-v0.46.0 
 make install
 ```
 
