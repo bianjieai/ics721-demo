@@ -6,12 +6,12 @@ import (
 
 	"github.com/spf13/cobra"
 
+	nfttransfercli "github.com/bianjieai/nft-transfer/client/cli"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/cosmos/cosmos-sdk/version"
 	"github.com/cosmos/cosmos-sdk/x/nft/client/cli"
-	nfttransfercli "github.com/cosmos/ibc-go/v3/modules/apps/nft-transfer/client/cli"
 
 	internft "github.com/bianjieai/ics721-demo/x/inter-nft"
 )
