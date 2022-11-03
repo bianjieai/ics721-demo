@@ -5,12 +5,12 @@
 The following repository and [`x/inter-nft`](./x/inter-nft/) module serves as an example and is used to exercise the functionality of Interchain nft end-to-end for development purposes only.
 This module **SHOULD NOT** be used in production systems and developers building on Interchain NFT are encouraged to design their own authentication modules which fit their use case.
 
-## Overview 
+## Overview
 
 The following repository contains a basic example of an Interchain NFT module and serves as a developer guide for teams that wish to use Interchain NFT functionality.
 
-The Interchain NFT module is now maintained within the `ibc-go` repository 
-[here](https://github.com/bianjieai/ibc-go/blob/develop/modules/apps/nft-transfer). 
+The Interchain NFT module is now maintained within the `ibc-go` repository
+[here](https://github.com/bianjieai/ibc-go/blob/develop/modules/apps/nft-transfer).
 
 ### Developer Documentation
 
@@ -26,15 +26,19 @@ make install
 ```
 
 2. Compile and install an IBC relayer.
-```
-git clone https://github.com/bianjieai/ibc-relayer-go.git
+
+```bash
+git clone https://github.com/cosmos/relayer.git
 cd relayer
-git checkout feature/bump-sdk-to-v0.46.0 
+git checkout main
 make install
 ```
 
+_Note that the commit used in the test was 1bbccc903facc9b7b0dedef66ebefab1ed1b3430_
+
 3. Bootstrap two chains and create an IBC connection and start the relayer
-```
+
+```bash
 make init-golang-rly
 ```
 
@@ -50,7 +54,7 @@ export DEMOWALLET_2=$(nftd keys show demowallet2 -a --keyring-backend test --hom
 
 ### Issue an nft class on the `test-1` chain
 
-Issue an nft class using the `nftd tx nft issue` cmd. 
+Issue an nft class using the `nftd tx nft issue` cmd.
 Here the message signer is used as the account owner.
 
 ```bash
@@ -124,7 +128,7 @@ icad q ibc channel channels --home ./data/test-2 --node tcp://localhost:26657
 
 ## Collaboration
 
-Please use conventional commits  https://www.conventionalcommits.org/en/v1.0.0/
+Please use conventional commits  <https://www.conventionalcommits.org/en/v1.0.0/>
 
 ```
 chore(bump): bumping version to 2.0
