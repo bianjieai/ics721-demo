@@ -1,6 +1,6 @@
 {
   "src": {
-    "chain-id": "test-1",
+    "chain-id": "iris-1",
     "client-id": "",
     "connection-id": "",
     "channel-id": "",
@@ -9,11 +9,11 @@
     "version": "ics721-1"
   },
   "dst": {
-    "chain-id": "test-2",
+    "chain-id": "elgafar-1",
     "client-id": "",
     "connection-id": "",
     "channel-id": "",
-    "port-id": "nft-transfer",
+    "port-id": "wasm.stars1qsvdw7xgn7u8mwgjlzm7qm0kyfkat9aeywghrhjv76aneysz366qyrrgax",
     "order": "unordered",
     "version": "ics721-1"
   },

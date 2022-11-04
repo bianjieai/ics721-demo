@@ -1,8 +1,8 @@
 {
   "type": "cosmos",
   "value": {
-    "key": "test-2",
-    "chain-id": "test-2",
+    "key": "iris-1",
+    "chain-id": "iris-1",
     "rpc-addr": "http://127.0.0.1:26657",
     "account-prefix": "cosmos",
     "keyring-backend": "test",
