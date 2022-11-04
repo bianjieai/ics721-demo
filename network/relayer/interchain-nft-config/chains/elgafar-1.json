@@ -1,7 +1,7 @@
 {
-  "type": "cosmos",
+  "type": "stargaze",
   "value": {
-    "key": "stars-1",
+    "key": "elgafar-1",
     "chain-id": "elgafar-1",
     "rpc-addr": "https://rpc.elgafar-1.stargaze-apis.com:443",
     "account-prefix": "stars",

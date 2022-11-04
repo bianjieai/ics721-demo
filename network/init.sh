@@ -46,8 +46,7 @@ fi
 echo "Initializing $CHAINID_1..."
 echo "Initializing $CHAINID_2..."
 $BINARY init test --home $CHAIN_DIR/$CHAINID_1 --chain-id=$CHAINID_1
-$BINARY init test --home $CHAIN_DIR/$CHAINID_2 --chain-chaindffdedee
-id=$CHAINID_2
+$BINARY init test --home $CHAIN_DIR/$CHAINID_2 --chain-id=$CHAINID_2
 
 echo "Adding genesis accounts..."
 echo $VAL_MNEMONIC_1 | $BINARY keys add val1 --home $CHAIN_DIR/$CHAINID_1 --recover --keyring-backend=test

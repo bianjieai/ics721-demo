@@ -19,15 +19,15 @@ $BINARY config init --home $CHAIN_DIR/$RELAYER_DIR
 
 echo "Adding configurations for both chains..."
 $BINARY chains add -f $PWD/network/relayer/interchain-nft-config/chains/iris-1.json iris-1 --home $CHAIN_DIR/$RELAYER_DIR
-$BINARY chains add -f $PWD/network/relayer/interchain-nft-config/chains/stars-1.json stars-1 --home $CHAIN_DIR/$RELAYER_DIR
-$BINARY paths add iris-1 stars-1 iris1-nft-stars1 -f $PWD/network/relayer/interchain-nft-config/paths/iris1-nft-stars1.json --home $CHAIN_DIR/$RELAYER_DIR
+$BINARY chains add -f $PWD/network/relayer/interchain-nft-config/chains/elgafar-1.json elgafar-1 --home $CHAIN_DIR/$RELAYER_DIR
+$BINARY paths add iris-1 elgafar-1 iris1-nft-elgafar1 -f $PWD/network/relayer/interchain-nft-config/paths/iris1-nft-stars1.json --home $CHAIN_DIR/$RELAYER_DIR
 
 echo "Restoring accounts..."
 $BINARY keys restore iris-1 iris-1 "$MNEMONIC_1" --home $CHAIN_DIR/$RELAYER_DIR
-$BINARY keys restore stars-1 stars-1 "$MNEMONIC_2" --home $CHAIN_DIR/$RELAYER_DIR
+$BINARY keys restore elgafar-1 elgafar-1 "$MNEMONIC_2" --home $CHAIN_DIR/$RELAYER_DIR
 
 echo "Linking both chains and starting to listen relayer"
-$BINARY transact link iris1-nft-stars1  --src-port nft-transfer --dst-port wasm.stars1qsvdw7xgn7u8mwgjlzm7qm0kyfkat9aeywghrhjv76aneysz366qyrrgax --order unordered --version ics721-1 --max-retries 20 -d --home $CHAIN_DIR/$RELAYER_DIR
+$BINARY transact link iris1-nft-elgafar1  --src-port nft-transfer --dst-port wasm.stars1qsvdw7xgn7u8mwgjlzm7qm0kyfkat9aeywghrhjv76aneysz366qyrrgax --order unordered --version ics721-1 --max-retries 20 -d --home $CHAIN_DIR/$RELAYER_DIR
 
 echo "Starting to listen relayer..."
-$BINARY start iris1-nft-stars1 --home $CHAIN_DIR/$RELAYER_DIR
+$BINARY start iris1-nft-elgafar1 --home $CHAIN_DIR/$RELAYER_DIR
