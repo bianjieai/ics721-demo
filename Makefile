@@ -67,13 +67,14 @@ proto-lint:
 ###                                Initialize                               ###
 ###############################################################################
 
-init: kill-dev install 
+init-hermes: kill-dev install 
 	@echo "Initializing both blockchains..."
 	./network/init.sh
 	./network/start.sh
 	@echo "Initializing relayer..." 
 	./network/hermes/restore-keys.sh
 	./network/hermes/create-conn.sh
+	./network/hermes/start.sh
 
 init-golang-rly: kill-dev install
 	@echo "Initializing both blockchains..."
@@ -85,9 +86,6 @@ init-golang-rly: kill-dev install
 start: 
 	@echo "Starting up test network"
 	./network/start.sh
-
-start-rly:
-	./network/hermes/start.sh
 
 kill-dev:
 	@echo "Killing nftd and removing previous data"
