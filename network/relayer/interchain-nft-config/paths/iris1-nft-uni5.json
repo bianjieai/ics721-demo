@@ -1,0 +1,25 @@
+{
+  "src": {
+    "chain-id": "iris-1",
+    "client-id": "",
+    "connection-id": "",
+    "channel-id": "",
+    "port-id": "nft-transfer",
+    "order": "unordered",
+    "version": "ics721-1"
+  },
+  "dst": {
+    "chain-id": "uni-5",
+    "client-id": "",
+    "connection-id": "",
+    "channel-id": "",
+    "port-id": "wasm.juno10up9ge9l9za5qpzg5l2jets68kmgpgfsamc7y6vs7um6kj83r8jscd5m96",
+    "order": "unordered",
+    "version": "ics721-1"
+  },
+  "strategy": {
+    "type": "naive"
+  }
+}
+
+
