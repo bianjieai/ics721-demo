@@ -5,7 +5,7 @@ go 1.18
 replace github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 
 require (
-	github.com/bianjieai/nft-transfer v0.0.0-20221103035602-f4228fb4ef3a
+	github.com/bianjieai/nft-transfer v0.0.0-20221107102225-9fc2c862c04a
 	github.com/cosmos/cosmos-sdk v0.46.3
 	github.com/cosmos/ibc-go/v5 v5.0.1
 	github.com/gogo/protobuf v1.3.3
