@@ -112,7 +112,6 @@ testnet-init:
 	@echo "Faucet address: cosmos1ljemm0yznz58qxxs8xyak7fashcfxf5laa4nsh" ;
 	@echo "Faucet coin amount: 1000000000000stake"
 	@echo "Faucet key seed: tube lonely pause spring gym veteran know want grid tired taxi such same mesh charge orient bracket ozone concert once good quick dry boss"
-1000
 testnet-start:
 	docker-compose up -d
 
