@@ -1,10 +1,5 @@
 # Interchain NFT
 
-## Disclaimer
-
-The following repository and [`x/inter-nft`](./x/inter-nft/) module serves as an example and is used to exercise the functionality of Interchain nft end-to-end for development purposes only.
-This module **SHOULD NOT** be used in production systems and developers building on Interchain NFT are encouraged to design their own authentication modules which fit their use case.
-
 ## Overview
 
 The following repository contains a basic example of an Interchain NFT module and serves as a developer guide for teams that wish to use Interchain NFT functionality.
@@ -48,21 +43,21 @@ make init-golang-rly
 
 ```bash
 # Store the following account addresses within the current shell env
-export DEMOWALLET_1=$(nftd keys show demowallet1 -a --keyring-backend test --home ./data/test-1) && echo $DEMOWALLET_1;
-export DEMOWALLET_2=$(nftd keys show demowallet2 -a --keyring-backend test --home ./data/test-2) && echo $DEMOWALLET_2;
+export DEMOWALLET_1=$(irisd keys show demowallet1 -a --keyring-backend test --home ./data/test-1) && echo $DEMOWALLET_1;
+export DEMOWALLET_2=$(irisd keys show demowallet2 -a --keyring-backend test --home ./data/test-2) && echo $DEMOWALLET_2;
 ```
 
 ### Issue an nft class on the `test-1` chain
 
-Issue an nft class using the `nftd tx nft issue` cmd.
+Issue an nft class using the `irisd tx nft issue` cmd.
 Here the message signer is used as the account owner.
 
 ```bash
 # Issue an nft class
-nftd tx nft issue cat --name xiaopi --symbol pipi --description "my cat" --uri "hhahahh"  --from demowallet1 --chain-id test-1 --keyring-dir ./data/test-1 --fees=1stake --keyring-backend=test -b block --node tcp://127.0.0.1:16657
+irisd tx nft issue cat --name xiaopi --symbol pipi --description "my cat" --uri "hhahahh"  --from demowallet1 --chain-id test-1 --keyring-dir ./data/test-1 --fees=1stake --keyring-backend=test -b block --node tcp://127.0.0.1:16657
 
 # Query the class
-nftd query nft class cat --node tcp://127.0.0.1:16657
+irisd query nft class cat --node tcp://127.0.0.1:16657
 
 ```
 
@@ -70,35 +65,35 @@ nftd query nft class cat --node tcp://127.0.0.1:16657
 
 ```bash
 # Mint a nft
-nftd tx nft mint cat xiaopi --uri="http://wwww.baidu.com" --from demowallet1 --chain-id test-1 --keyring-dir ./data/test-1 --fees=1stake --keyring-backend=test -b block --node tcp://127.0.0.1:16657
+irisd tx nft mint cat xiaopi --uri="http://wwww.baidu.com" --from demowallet1 --chain-id test-1 --keyring-dir ./data/test-1 --fees=1stake --keyring-backend=test -b block --node tcp://127.0.0.1:16657
 
 # query the nft
-nftd query nft nft cat xiaopi --node tcp://127.0.0.1:16657
+irisd query nft nft cat xiaopi --node tcp://127.0.0.1:16657
 ```
 
 ### Transfer a nft from chain `test-1` to chain `test-2`
 
 ```bash
 # Execute the nft tranfer command
-nftd tx nft transfer nft-transfer channel-0 cosmos10h9stc5v6ntgeygf5xf945njqq5h32r53uquvw cat xiaopi --from demowallet1 --chain-id test-1 --keyring-dir ./data/test-1 --fees=1stake --keyring-backend=test -b block --node tcp://127.0.0.1:16657 --packet-timeout-height 2-10000
+irisd tx nft transfer nft-transfer channel-0 cosmos10h9stc5v6ntgeygf5xf945njqq5h32r53uquvw cat xiaopi --from demowallet1 --chain-id test-1 --keyring-dir ./data/test-1 --fees=1stake --keyring-backend=test -b block --node tcp://127.0.0.1:16657 --packet-timeout-height 2-10000
 
 # Query the newly generated class-id through class-trace
-nftd query nft-transfer class-hash nft-transfer/channel-0/cat --node tcp://127.0.0.1:26657
+irisd query nft-transfer class-hash nft-transfer/channel-0/cat --node tcp://127.0.0.1:26657
 
 # Query nft information on test-2
-nftd query nft nft ibc/943B966B2B8A53C50A198EDAB7C9A41FCEAF24400A94167846679769D8BF8311 xiaopi --node tcp://127.0.0.1:26657
+irisd query nft nft ibc/943B966B2B8A53C50A198EDAB7C9A41FCEAF24400A94167846679769D8BF8311 xiaopi --node tcp://127.0.0.1:26657
 ```
 
 When the nft is transferred out, the nft on the original chain will be locked to the [escrow account](https://github.com/bianjieai/ibc-go/blob/develop/modules/apps/nft-transfer/types/keys.go#L45). You can use the following command to determine whether the transferred nft is escrow
 
 ```bash
-nftd query nft owner cat xiaopi --node tcp://127.0.0.1:16657
+irisd query nft owner cat xiaopi --node tcp://127.0.0.1:16657
 ```
 
 ### Transfer a nft back from chain `test-2` to chain `test-1`
 
 ```bash
-nftd tx nft transfer nft-transfer channel-0 cosmos1m9l358xunhhwds0568za49mzhvuxx9uxre5tud ibc/943B966B2B8A53C50A198EDAB7C9A41FCEAF24400A94167846679769D8BF8311 xiaopi --from demowallet2 --chain-id test-2 --keyring-dir ./data/test-2 --fees=1stake --keyring-backend=test -b block --node tcp://127.0.0.1:26657 --packet-timeout-height 2-10000
+irisd tx nft transfer nft-transfer channel-0 cosmos1m9l358xunhhwds0568za49mzhvuxx9uxre5tud ibc/943B966B2B8A53C50A198EDAB7C9A41FCEAF24400A94167846679769D8BF8311 xiaopi --from demowallet2 --chain-id test-2 --keyring-dir ./data/test-2 --fees=1stake --keyring-backend=test -b block --node tcp://127.0.0.1:26657 --packet-timeout-height 2-10000
 ```
 
 #### Testing timeout scenario
