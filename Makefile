@@ -8,11 +8,11 @@ PROJECT_NAME = $(shell git remote get-url origin | xargs basename -s .git)
 ###                           Install                                       ###
 ###############################################################################
 install: go.sum
-		@echo "--> Installing nftd"
-		@go install ./cmd/nftd
+		@echo "--> Installing irisd"
+		@go install ./cmd/irisd
 
 install-debug: go.sum
-	go build -gcflags="all=-N -l" ./cmd/nftd
+	go build -gcflags="all=-N -l" ./cmd/irisd
 
 go.sum: go.mod
 	@echo "--> Ensure dependencies have not been modified"
@@ -90,6 +90,6 @@ start-rly:
 	./network/hermes/start.sh
 
 kill-dev:
-	@echo "Killing nftd and removing previous data"
+	@echo "Killing irisd and removing previous data"
 	-@rm -rf ./data
-	-@killall nftd 2>/dev/null
+	-@killall irisd 2>/dev/null

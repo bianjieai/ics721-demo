@@ -94,12 +94,12 @@ import (
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	appparams "github.com/bianjieai/ics721-demo/app/params"
-	internft "github.com/bianjieai/ics721-demo/x/inter-nft"
-	internftkeeper "github.com/bianjieai/ics721-demo/x/inter-nft/keeper"
-	internftmodule "github.com/bianjieai/ics721-demo/x/inter-nft/module"
+	nftkeeper "github.com/irisnet/irismod/modules/nft/keeper"
+	nftmodule "github.com/irisnet/irismod/modules/nft/module"
+	nfttypes "github.com/irisnet/irismod/modules/nft/types"
 )
 
-const Name = "nft"
+const Name = "iris"
 
 var (
 	// DefaultNodeHome default home directories for the application daemon
@@ -131,7 +131,7 @@ var (
 		evidence.AppModuleBasic{},
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
-		internftmodule.AppModuleBasic{},
+		nftmodule.AppModuleBasic{},
 		nfttransfer.AppModuleBasic{},
 	// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
@@ -198,7 +198,7 @@ type App struct {
 	UpgradeKeeper        upgradekeeper.Keeper
 	ParamsKeeper         paramskeeper.Keeper
 	IBCKeeper            *ibckeeper.Keeper // IBC Keeper must be a pointer in the app, so we can SetRouter on it correctly
-	InterNFTKeeper       internftkeeper.Keeper
+	NFTKeeper            nftkeeper.Keeper
 	EvidenceKeeper       evidencekeeper.Keeper
 	TransferKeeper       ibctransferkeeper.Keeper
 	IBCNFTTransferKeeper ibcnfttransferkeeper.Keeper
@@ -242,7 +242,7 @@ func New(
 		authtypes.StoreKey, banktypes.StoreKey, stakingtypes.StoreKey,
 		minttypes.StoreKey, distrtypes.StoreKey, slashingtypes.StoreKey,
 		govtypes.StoreKey, feegrant.StoreKey, paramstypes.StoreKey, ibchost.StoreKey, upgradetypes.StoreKey,
-		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey, internft.StoreKey, ibcnfttransfertypes.StoreKey,
+		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey, nfttypes.StoreKey, ibcnfttransfertypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -356,13 +356,13 @@ func New(
 	transferModule := transfer.NewAppModule(app.TransferKeeper)
 	transferIBCModule := transfer.NewIBCModule(app.TransferKeeper)
 
-	app.InterNFTKeeper = internftkeeper.NewKeeper(
+	app.NFTKeeper = nftkeeper.NewKeeper(
 		appCodec,
-		keys[internft.StoreKey],
+		keys[nfttypes.StoreKey],
 		app.AccountKeeper,
 		app.BankKeeper,
 	)
-	interTxModule := internftmodule.NewAppModule(appCodec, app.InterNFTKeeper)
+	nftModule := nftmodule.NewAppModule(appCodec, app.NFTKeeper, app.AccountKeeper, app.BankKeeper)
 
 	app.IBCNFTTransferKeeper = ibcnfttransferkeeper.NewKeeper(
 		appCodec,
@@ -371,7 +371,7 @@ func New(
 		app.IBCKeeper.ChannelKeeper,
 		&app.IBCKeeper.PortKeeper,
 		app.AccountKeeper,
-		app.InterNFTKeeper,
+		app.NFTKeeper.NewISC721Keeper(),
 		scopedNFTTransferKeeper,
 	)
 	nfttransferModule := nfttransfer.NewAppModule(app.IBCNFTTransferKeeper)
@@ -437,7 +437,7 @@ func New(
 		params.NewAppModule(app.ParamsKeeper),
 		transferModule,
 		nfttransferModule,
-		interTxModule,
+		nftModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -449,14 +449,14 @@ func New(
 		upgradetypes.ModuleName, capabilitytypes.ModuleName, minttypes.ModuleName, distrtypes.ModuleName, slashingtypes.ModuleName,
 		evidencetypes.ModuleName, stakingtypes.ModuleName, ibchost.ModuleName, ibctransfertypes.ModuleName, authtypes.ModuleName,
 		banktypes.ModuleName, govtypes.ModuleName, crisistypes.ModuleName, genutiltypes.ModuleName, feegrant.ModuleName,
-		paramstypes.ModuleName, vestingtypes.ModuleName, ibcnfttransfertypes.ModuleName, internft.ModuleName,
+		paramstypes.ModuleName, vestingtypes.ModuleName, ibcnfttransfertypes.ModuleName, nfttypes.ModuleName,
 	)
 
 	app.mm.SetOrderEndBlockers(
 		crisistypes.ModuleName, govtypes.ModuleName, stakingtypes.ModuleName, ibchost.ModuleName, ibctransfertypes.ModuleName,
 		capabilitytypes.ModuleName, authtypes.ModuleName, banktypes.ModuleName, distrtypes.ModuleName, slashingtypes.ModuleName,
 		minttypes.ModuleName, genutiltypes.ModuleName, evidencetypes.ModuleName, feegrant.ModuleName, paramstypes.ModuleName,
-		upgradetypes.ModuleName, vestingtypes.ModuleName, ibcnfttransfertypes.ModuleName, internft.ModuleName,
+		upgradetypes.ModuleName, vestingtypes.ModuleName, ibcnfttransfertypes.ModuleName, nfttypes.ModuleName,
 	)
 
 	// NOTE: The genutils module must occur after staking so that pools are
@@ -468,7 +468,7 @@ func New(
 		capabilitytypes.ModuleName, authtypes.ModuleName, banktypes.ModuleName, distrtypes.ModuleName, stakingtypes.ModuleName,
 		slashingtypes.ModuleName, govtypes.ModuleName, minttypes.ModuleName, crisistypes.ModuleName,
 		ibchost.ModuleName, genutiltypes.ModuleName, evidencetypes.ModuleName, ibctransfertypes.ModuleName, ibcnfttransfertypes.ModuleName,
-		internft.ModuleName, feegrant.ModuleName, paramstypes.ModuleName, upgradetypes.ModuleName, vestingtypes.ModuleName,
+		nfttypes.ModuleName, feegrant.ModuleName, paramstypes.ModuleName, upgradetypes.ModuleName, vestingtypes.ModuleName,
 	)
 
 	app.mm.RegisterInvariants(&app.CrisisKeeper)
