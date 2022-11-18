@@ -8,15 +8,15 @@ require (
 	github.com/bianjieai/nft-transfer v0.0.0-20221109033137-3805eb32c2d2
 	github.com/cosmos/cosmos-sdk v0.46.4
 	github.com/cosmos/ibc-go/v5 v5.0.1
-	github.com/gogo/protobuf v1.3.3
-	github.com/grpc-ecosystem/grpc-gateway v1.16.0
+	github.com/gogo/protobuf v1.3.3 // indirect
+	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
 	github.com/irisnet/irismod v1.7.0-rc1.0.20221114081932-53e6d7d0543a
 	github.com/spf13/cast v1.5.0
 	github.com/spf13/cobra v1.5.0
 	github.com/spf13/pflag v1.0.5
 	github.com/tendermint/tendermint v0.34.22
 	github.com/tendermint/tm-db v0.6.7
-	google.golang.org/grpc v1.50.0
+	google.golang.org/grpc v1.50.0 // indirect
 )
 
 require (
