@@ -1,14 +1,30 @@
-# Compile
-FROM golang:alpine AS builder
-WORKDIR /src/app/
-COPY go.mod go.sum* ./
-RUN go mod download
+#
+# Build image: docker build -t bianjieai/ics721-demo .
+#
+FROM golang:1.18-alpine3.16 as builder
+
+# Set up dependencies
+ENV PACKAGES make gcc git libc-dev bash linux-headers eudev-dev
+
+WORKDIR /demo
+
+# Add source files
 COPY . .
-RUN for bin in cmd/*; do CGO_ENABLED=0 go build -o=/usr/local/bin/$(basename $bin) ./cmd/$(basename $bin); done
 
+# Install minimum necessary dependencies
+RUN apk add --no-cache $PACKAGES
 
-# Add to a distroless container
-FROM gcr.io/distroless/base
-COPY --from=builder /usr/local/bin /usr/local/bin
-USER nonroot:nonroot
-CMD ["inft start"]
+RUN make build
+
+# ----------------------------
+
+FROM alpine:3.12
+
+# p2p port
+EXPOSE 26656
+# rpc port
+EXPOSE 26657
+# metrics port
+EXPOSE 26660
+
+COPY --from=builder /demo/build/ /usr/local/bin/
