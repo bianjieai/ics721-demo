@@ -8,14 +8,14 @@ PROJECT_NAME = $(shell git remote get-url origin | xargs basename -s .git)
 ###                           Install                                       ###
 ###############################################################################
 build: go.sum
-		@go build -o build/nftd ./cmd/nftd
+		@go build -o build/irisd ./cmd/irisd
 
 install: go.sum
-		@echo "--> Installing nftd"
-		@go install ./cmd/nftd
+		@echo "--> Installing irisd"
+		@go install ./cmd/irisd
 
 install-debug: go.sum
-	go build -gcflags="all=-N -l" ./cmd/nftd
+	go build -gcflags="all=-N -l" ./cmd/irisd
 
 go.sum: go.mod
 	@echo "--> Ensure dependencies have not been modified"
@@ -93,23 +93,23 @@ start-rly:
 	./network/hermes/start.sh
 
 kill-dev:
-	@echo "Killing nftd and removing previous data"
+	@echo "Killing irisd and removing previous data"
 	-@rm -rf ./data
-	-@killall nftd 2>/dev/null
+	-@killall irisd 2>/dev/null
 
 ########################################
 ### Local validator nodes using docker and docker-compose
 
 testnet-init:
-	@if ! [ -f build/nodecluster/node0/iris/config/genesis.json ]; then docker run --rm -v $(CURDIR)/build:/home bianjieai/ics721-demo nftd testnet --v 4 --output-dir /home/nodecluster --chain-id iris-1 --keyring-backend test --starting-ip-address 192.168.10.2 ; fi
+	@if ! [ -f build/nodecluster/node0/iris/config/genesis.json ]; then docker run --rm -v $(CURDIR)/build:/home bianjieai/ics721-demo irisd testnet --v 4 --output-dir /home/nodecluster --chain-id iris-1 --keyring-backend test --starting-ip-address 192.168.10.2 ; fi
 	@echo "To install jq command, please refer to this page: https://stedolan.github.io/jq/download/"
-	@jq '.app_state.auth.accounts+= [{"@type":"/cosmos.auth.v1beta1.BaseAccount","address":"cosmos1ljemm0yznz58qxxs8xyak7fashcfxf5laa4nsh","pub_key":null,"account_number":"0","sequence":"0"}] | .app_state.bank.balances+= [{"address":"cosmos1ljemm0yznz58qxxs8xyak7fashcfxf5laa4nsh","coins":[{"denom":"stake","amount":"1000000000000"}]}]' build/nodecluster/node0/iris/config/genesis.json > build/genesis_temp.json ;
+	@jq '.app_state.auth.accounts+= [{"@type":"/cosmos.auth.v1beta1.BaseAccount","address":"iaa1ljemm0yznz58qxxs8xyak7fashcfxf5lgl4zjx","pub_key":null,"account_number":"0","sequence":"0"}] | .app_state.bank.balances+= [{"address":"iaa1ljemm0yznz58qxxs8xyak7fashcfxf5lgl4zjx","coins":[{"denom":"stake","amount":"1000000000000"}]}]' build/nodecluster/node0/iris/config/genesis.json > build/genesis_temp.json ;
 	@sudo cp build/genesis_temp.json build/nodecluster/node0/iris/config/genesis.json
 	@sudo cp build/genesis_temp.json build/nodecluster/node1/iris/config/genesis.json
 	@sudo cp build/genesis_temp.json build/nodecluster/node2/iris/config/genesis.json
 	@sudo cp build/genesis_temp.json build/nodecluster/node3/iris/config/genesis.json
 	@rm build/genesis_temp.json
-	@echo "Faucet address: cosmos1ljemm0yznz58qxxs8xyak7fashcfxf5laa4nsh" ;
+	@echo "Faucet address: iaa1ljemm0yznz58qxxs8xyak7fashcfxf5lgl4zjx" ;
 	@echo "Faucet coin amount: 1000000000000stake"
 	@echo "Faucet key seed: tube lonely pause spring gym veteran know want grid tired taxi such same mesh charge orient bracket ozone concert once good quick dry boss"
 testnet-start:

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BINARY=nftd
+BINARY=irisd
 CHAIN_DIR=./data
 CHAINID_1=test-1
 CHAINID_2=test-2
